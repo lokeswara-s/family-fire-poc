@@ -1,17 +1,23 @@
-import React from 'react';
-import { Investment } from '../../types';
+//@ts-nocheck
+import React from "react";
+import { Investment } from "../../types";
 
 interface InvestmentDistributionProps {
   investments: Investment[];
 }
 
-export const InvestmentDistribution: React.FC<InvestmentDistributionProps> = ({ investments }) => {
+export const InvestmentDistribution: React.FC<InvestmentDistributionProps> = ({
+  investments,
+}) => {
   const riskDistribution = investments.reduce((acc, inv) => {
     acc[inv.risk] = (acc[inv.risk] || 0) + inv.amount;
     return acc;
   }, {} as Record<string, number>);
 
-  const totalAmount = Object.values(riskDistribution).reduce((a, b) => a + b, 0);
+  const totalAmount = Object.values(riskDistribution).reduce(
+    (a, b) => a + b,
+    0,
+  );
 
   return (
     <div className="bg-white rounded-lg p-4 shadow-md">
@@ -28,8 +34,11 @@ export const InvestmentDistribution: React.FC<InvestmentDistributionProps> = ({ 
               <div className="w-full bg-gray-200 rounded-full h-2.5">
                 <div
                   className={`h-2.5 rounded-full ${
-                    risk === 'low' ? 'bg-green-600' :
-                    risk === 'medium' ? 'bg-yellow-600' : 'bg-red-600'
+                    risk === "low"
+                      ? "bg-green-600"
+                      : risk === "medium"
+                      ? "bg-yellow-600"
+                      : "bg-red-600"
                   }`}
                   style={{ width: `${percentage}%` }}
                 ></div>

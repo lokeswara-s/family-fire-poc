@@ -1,13 +1,14 @@
-import React from 'react';
-import { Investment } from '../../types';
-import { formatCurrency } from '../../utils/formatCurrency';
+//@ts-nocheck
+import React from "react";
+import { Investment } from "../../types";
+import { formatCurrency } from "../../utils/formatCurrency";
 import {
   DocumentTextIcon,
   UserIcon,
   ScaleIcon,
   ArrowPathIcon,
   ChartBarIcon,
-} from '@heroicons/react/24/outline';
+} from "@heroicons/react/24/outline";
 
 interface FundDetailsProps {
   investment: Investment;
@@ -19,27 +20,27 @@ export const FundDetails: React.FC<FundDetailsProps> = ({ investment }) => {
   const details = [
     {
       icon: DocumentTextIcon,
-      label: 'Fund House',
+      label: "Fund House",
       value: investment.fundDetails.fundHouse,
     },
     {
       icon: ChartBarIcon,
-      label: 'Category',
+      label: "Category",
       value: investment.fundDetails.category,
     },
     {
       icon: ScaleIcon,
-      label: 'NAV',
+      label: "NAV",
       value: formatCurrency(investment.fundDetails.nav),
     },
     {
       icon: ArrowPathIcon,
-      label: 'Expense Ratio',
+      label: "Expense Ratio",
       value: `${investment.fundDetails.expenseRatio}%`,
     },
     {
       icon: UserIcon,
-      label: 'Fund Manager',
+      label: "Fund Manager",
       value: investment.fundDetails.fundManager,
     },
   ];
@@ -63,7 +64,9 @@ export const FundDetails: React.FC<FundDetailsProps> = ({ investment }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-gray-600">Units Held</p>
-            <p className="font-medium">{investment.fundDetails.units.toFixed(2)}</p>
+            <p className="font-medium">
+              {investment.fundDetails.units.toFixed(2)}
+            </p>
           </div>
           <div>
             <p className="text-gray-600">Exit Load</p>

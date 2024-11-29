@@ -1,12 +1,13 @@
-import { z } from 'zod';
-
 export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'admin' | 'member';
+  role: "admin" | "member";
 }
+export type FamilyMemberRelationship = "spouse" | "child" | "other";
 
+// Investment
+export type Investment = "stocks" | "bonds" | "mutualFunds";
 export interface FamilyMember {
   id: string;
   name: string;
@@ -20,7 +21,7 @@ export interface GoalInvitation {
   goalId: string;
   inviterId: string;
   inviteeId: string;
-  status: 'pending' | 'accepted' | 'declined';
+  status: "pending" | "accepted" | "declined";
   message?: string;
   createdAt: Date;
 }
@@ -32,7 +33,7 @@ export interface FinancialGoal {
   currentAmount: number;
   deadline: Date;
   contributors: string[];
-  category: 'retirement' | 'education' | 'housing' | 'emergency' | 'other';
+  category: "retirement" | "education" | "housing" | "emergency" | "other";
   invitations?: GoalInvitation[];
 }
 

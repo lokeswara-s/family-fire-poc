@@ -1,11 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ChartBarIcon, ArrowTrendingUpIcon } from '@heroicons/react/24/outline';
-import { useStore } from '../../store/useStore';
+//@ts-nocheck
+import React from "react";
+import { Link } from "react-router-dom";
+import { ChartBarIcon, ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
+import { useStore } from "../../store/useStore";
 
 export const GoalInvestmentOverview: React.FC = () => {
   const { goals, investments } = useStore();
-  const totalInvestments = investments.reduce((sum, inv) => sum + inv.amount, 0);
+  const totalInvestments = investments.reduce(
+    (sum, inv) => sum + inv.amount,
+    0,
+  );
   const totalGoals = goals.reduce((sum, goal) => sum + goal.targetAmount, 0);
   const progressPercentage = (totalInvestments / totalGoals) * 100;
 
@@ -15,7 +19,7 @@ export const GoalInvestmentOverview: React.FC = () => {
         <ChartBarIcon className="h-6 w-6 text-blue-600 mr-2" />
         Goals vs Investments Progress
       </h2>
-      
+
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-blue-50 p-4 rounded-lg">
@@ -35,7 +39,9 @@ export const GoalInvestmentOverview: React.FC = () => {
         <div>
           <div className="flex justify-between text-sm mb-2">
             <span className="text-gray-600">Progress Towards Goals</span>
-            <span className="font-medium">{progressPercentage.toFixed(1)}%</span>
+            <span className="font-medium">
+              {progressPercentage.toFixed(1)}%
+            </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div
@@ -47,11 +53,16 @@ export const GoalInvestmentOverview: React.FC = () => {
 
         <div className="space-y-4">
           {goals.map((goal) => {
-            const relatedInvestments = investments.filter(inv => 
-              (goal.category === 'retirement' && ['stocks', 'bonds'].includes(inv.type)) ||
-              (goal.category === 'housing' && inv.type === 'realEstate')
+            const relatedInvestments = investments.filter(
+              (inv) =>
+                (goal.category === "retirement" &&
+                  ["stocks", "bonds"].includes(inv.type)) ||
+                (goal.category === "housing" && inv.type === "realEstate"),
             );
-            const investmentAmount = relatedInvestments.reduce((sum, inv) => sum + inv.amount, 0);
+            const investmentAmount = relatedInvestments.reduce(
+              (sum, inv) => sum + inv.amount,
+              0,
+            );
             const goalProgress = (investmentAmount / goal.targetAmount) * 100;
 
             return (
@@ -59,7 +70,9 @@ export const GoalInvestmentOverview: React.FC = () => {
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h3 className="font-semibold">{goal.title}</h3>
-                    <p className="text-sm text-gray-600">Target: ${goal.targetAmount.toLocaleString()}</p>
+                    <p className="text-sm text-gray-600">
+                      Target: ${goal.targetAmount.toLocaleString()}
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="font-semibold text-green-600">

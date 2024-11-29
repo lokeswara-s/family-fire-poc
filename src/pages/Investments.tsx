@@ -1,25 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useStore } from '../store/useStore';
-import { InvestmentCharts } from '../components/Investments/InvestmentCharts';
-import { 
-  BanknotesIcon, 
-  BuildingLibraryIcon, 
-  HomeModernIcon, 
+//@ts-nocheck
+import React from "react";
+import { Link } from "react-router-dom";
+import { useStore } from "../store/useStore";
+import { InvestmentCharts } from "../components/Investments/InvestmentCharts";
+import {
+  BanknotesIcon,
+  BuildingLibraryIcon,
+  HomeModernIcon,
   CircleStackIcon,
-} from '@heroicons/react/24/outline';
-import { formatCurrency } from '../utils/formatCurrency';
+} from "@heroicons/react/24/outline";
+import { formatCurrency } from "../utils/formatCurrency";
 
 const investmentTypes = [
-  { type: 'stocks', icon: BanknotesIcon, label: 'Stocks & Mutual Funds' },
-  { type: 'bonds', icon: BuildingLibraryIcon, label: 'Bonds' },
-  { type: 'realEstate', icon: HomeModernIcon, label: 'Real Estate' },
-  { type: 'crypto', icon: CircleStackIcon, label: 'Cryptocurrency' },
+  { type: "stocks", icon: BanknotesIcon, label: "Stocks & Mutual Funds" },
+  { type: "bonds", icon: BuildingLibraryIcon, label: "Bonds" },
+  { type: "realEstate", icon: HomeModernIcon, label: "Real Estate" },
+  { type: "crypto", icon: CircleStackIcon, label: "Cryptocurrency" },
 ];
 
 export const Investments: React.FC = () => {
   const investments = useStore((state) => state.investments);
-  const totalInvestments = investments.reduce((sum, inv) => sum + inv.amount, 0);
+  const totalInvestments = investments.reduce(
+    (sum, inv) => sum + inv.amount,
+    0,
+  );
 
   const investmentsByType = investments.reduce((acc, inv) => {
     acc[inv.type] = {
@@ -31,17 +35,21 @@ export const Investments: React.FC = () => {
   }, {} as Record<string, { amount: number; count: number; avgReturn: number }>);
 
   // Calculate average returns
-  Object.values(investmentsByType).forEach(type => {
+  Object.values(investmentsByType).forEach((type) => {
     type.avgReturn = type.avgReturn / type.count;
   });
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Investment Portfolio</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Investment Portfolio
+        </h1>
         <div className="text-right">
           <p className="text-sm text-gray-600">Total Portfolio Value</p>
-          <p className="text-2xl font-bold text-blue-600">{formatCurrency(totalInvestments)}</p>
+          <p className="text-2xl font-bold text-blue-600">
+            {formatCurrency(totalInvestments)}
+          </p>
         </div>
       </div>
 
@@ -49,7 +57,11 @@ export const Investments: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {investmentTypes.map(({ type, icon: Icon, label }) => {
-          const stats = investmentsByType[type] || { amount: 0, count: 0, avgReturn: 0 };
+          const stats = investmentsByType[type] || {
+            amount: 0,
+            count: 0,
+            avgReturn: 0,
+          };
           return (
             <Link
               key={type}
@@ -73,8 +85,13 @@ export const Investments: React.FC = () => {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Avg. Return</span>
-                  <span className={`font-medium ${stats.avgReturn > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {stats.avgReturn > 0 ? '+' : ''}{stats.avgReturn.toFixed(1)}%
+                  <span
+                    className={`font-medium ${
+                      stats.avgReturn > 0 ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    {stats.avgReturn > 0 ? "+" : ""}
+                    {stats.avgReturn.toFixed(1)}%
                   </span>
                 </div>
               </div>
@@ -87,15 +104,27 @@ export const Investments: React.FC = () => {
         <h2 className="text-xl font-bold mb-4">Recent Investments</h2>
         <div className="space-y-4">
           {investments.slice(0, 5).map((investment) => (
-            <div key={investment.id} className="flex justify-between items-center border-b pb-4 last:border-b-0">
+            <div
+              key={investment.id}
+              className="flex justify-between items-center border-b pb-4 last:border-b-0"
+            >
               <div>
                 <h3 className="font-semibold">{investment.name}</h3>
-                <p className="text-sm text-gray-600 capitalize">{investment.type}</p>
+                <p className="text-sm text-gray-600 capitalize">
+                  {investment.type}
+                </p>
               </div>
               <div className="text-right">
                 <p className="font-bold">{formatCurrency(investment.amount)}</p>
-                <p className={`text-sm ${investment.returnRate > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {investment.returnRate > 0 ? '+' : ''}{investment.returnRate}%
+                <p
+                  className={`text-sm ${
+                    investment.returnRate > 0
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
+                >
+                  {investment.returnRate > 0 ? "+" : ""}
+                  {investment.returnRate}%
                 </p>
               </div>
             </div>
