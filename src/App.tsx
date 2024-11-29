@@ -1,23 +1,26 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
-import IndividualGoals from './pages/IndividualGoals';
-import FamilyGoals from './pages/FamilyGoals';
-import Investments from './pages/Investments';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Dashboard } from './pages/Dashboard';
+import { Goals } from './pages/Goals';
+import { Investments } from './pages/Investments';
+import { InvestmentDetail } from './pages/InvestmentDetail';
+import { Profile } from './pages/Profile';
+import { Settings } from './pages/Settings';
+import { MainLayout } from './components/Layout/MainLayout';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="individual-goals" element={<IndividualGoals />} />
-          <Route path="family-goals" element={<FamilyGoals />} />
-          <Route path="investments" element={<Investments />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/goals" element={<Goals />} />
+          <Route path="/investments" element={<Investments />} />
+          <Route path="/investments/:type" element={<InvestmentDetail />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </MainLayout>
+    </Router>
   );
 }
 
