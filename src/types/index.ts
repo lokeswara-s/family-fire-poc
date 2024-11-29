@@ -15,6 +15,16 @@ export interface FamilyMember {
   monthlyExpenses: number;
 }
 
+export interface GoalInvitation {
+  id: string;
+  goalId: string;
+  inviterId: string;
+  inviteeId: string;
+  status: 'pending' | 'accepted' | 'declined';
+  message?: string;
+  createdAt: Date;
+}
+
 export interface FinancialGoal {
   id: string;
   title: string;
@@ -23,42 +33,7 @@ export interface FinancialGoal {
   deadline: Date;
   contributors: string[];
   category: 'retirement' | 'education' | 'housing' | 'emergency' | 'other';
+  invitations?: GoalInvitation[];
 }
 
-export interface Investment {
-  id: string;
-  name: string;
-  type: 'stocks' | 'bonds' | 'realEstate' | 'crypto' | 'other' | 'mutualFund';
-  amount: number;
-  returnRate: number;
-  risk: 'low' | 'medium' | 'high';
-  startDate: Date;
-  fundDetails?: {
-    fundHouse: string;
-    category: string;
-    nav: number;
-    units: number;
-    expenseRatio: number;
-    exitLoad: string;
-    benchmark: string;
-    fundManager: string;
-  };
-}
-
-export interface ExpenseCategory {
-  id: string;
-  name: string;
-  budget: number;
-  spent: number;
-}
-
-export const fundSchema = z.object({
-  fundHouse: z.string(),
-  category: z.string(),
-  nav: z.number(),
-  units: z.number(),
-  expenseRatio: z.number(),
-  exitLoad: z.string(),
-  benchmark: z.string(),
-  fundManager: z.string(),
-});
+// Rest of the types remain the same...

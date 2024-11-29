@@ -3,8 +3,9 @@ import { useStore } from '../store/useStore';
 import { FamilyOverview } from '../components/Dashboard/FamilyOverview';
 import { GoalProgress } from '../components/Dashboard/GoalProgress';
 import { GoalsToggle } from '../components/Dashboard/GoalsToggle';
+import { GoalInvitations } from '../components/Goals/GoalInvitations';
+import { InvestmentCharts } from '../components/Investments/InvestmentCharts';
 import { InvestmentOverview } from '../components/Dashboard/InvestmentOverview';
-import { InvestmentDistribution } from '../components/Dashboard/InvestmentDistribution';
 
 export const Dashboard: React.FC = () => {
   const { familyMembers, goals, investments } = useStore();
@@ -22,10 +23,20 @@ export const Dashboard: React.FC = () => {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Financial Dashboard</h1>
       
-      <FamilyOverview members={familyMembers} />
+      <GoalInvitations />
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <FamilyOverview members={familyMembers} />
+        <InvestmentOverview investments={investments} />
+      </div>
 
       <div className="bg-white rounded-lg p-4 shadow-md">
-        <h2 className="text-xl font-bold mb-4">Goal Progress</h2>
+        <h2 className="text-xl font-bold mb-4">Investment Analysis</h2>
+        <InvestmentCharts investments={investments} />
+      </div>
+
+      <div className="bg-white rounded-lg p-4 shadow-md">
+        <h2 className="text-xl font-bold mb-4">Financial Goals</h2>
         <GoalsToggle activeView={activeView} onToggle={setActiveView} />
         <div className="space-y-4">
           {filteredGoals.length > 0 ? (
@@ -38,11 +49,6 @@ export const Dashboard: React.FC = () => {
             </p>
           )}
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <InvestmentOverview investments={investments} />
-        <InvestmentDistribution investments={investments} />
       </div>
     </div>
   );

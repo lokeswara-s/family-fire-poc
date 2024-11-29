@@ -1,53 +1,39 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useStore } from "../../store/useStore";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useStore } from '../../store/useStore';
 
 const goalSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  targetAmount: z.number().min(1, "Target amount must be greater than 0"),
-  deadline: z.string().min(1, "Deadline is required"),
-  category: z.enum([
-    "retirement",
-    "education",
-    "housing",
-    "emergency",
-    "other",
-  ]),
-  type: z.enum(["individual", "family"]),
+  title: z.string().min(1, 'Title is required'),
+  targetAmount: z.number().min(1, 'Target amount must be greater than 0'),
+  deadline: z.string().min(1, 'Deadline is required'),
+  category: z.enum(['retirement', 'education', 'housing', 'emergency', 'other']),
+  type: z.enum(['individual', 'family']),
   familyMemberId: z.string().optional(),
 });
 
 type GoalFormData = z.infer<typeof goalSchema>;
 
 export const AddGoalForm: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    reset,
-  } = useForm<GoalFormData>({
+  const { register, handleSubmit, formState: { errors }, watch, reset } = useForm<GoalFormData>({
     resolver: zodResolver(goalSchema),
     defaultValues: {
-      type: "individual",
+      type: 'individual',
     },
   });
-
+  
   const addGoal = useStore((state) => state.addGoal);
   const familyMembers = useStore((state) => state.familyMembers);
-  const goalType = watch("type");
+  const goalType = watch('type');
 
   const onSubmit = (data: GoalFormData) => {
-    const contributors =
-      data.type === "individual" && data.familyMemberId
-        ? [data.familyMemberId]
-        : data.type === "family"
-        ? ["user", ...familyMembers.map((member) => member.id)]
-        : ["user"];
+    const contributors = data.type === 'individual' && data.familyMemberId
+      ? [data.familyMemberId]
+      : data.type === 'family'
+      ? ['user', ...familyMembers.map(member => member.id)]
+      : ['user'];
 
-    //@ts-ignore
     addGoal({
       id: crypto.randomUUID(),
       ...data,
@@ -61,14 +47,12 @@ export const AddGoalForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Goal Type
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Goal Type</label>
         <div className="mt-2 flex gap-4">
           <label className="inline-flex items-center">
             <input
               type="radio"
-              {...register("type")}
+              {...register('type')}
               value="individual"
               className="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
             />
@@ -77,7 +61,7 @@ export const AddGoalForm: React.FC = () => {
           <label className="inline-flex items-center">
             <input
               type="radio"
-              {...register("type")}
+              {...register('type')}
               value="family"
               className="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
             />
@@ -86,13 +70,11 @@ export const AddGoalForm: React.FC = () => {
         </div>
       </div>
 
-      {goalType === "individual" && (
+      {goalType === 'individual' && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Family Member
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Family Member</label>
           <select
-            {...register("familyMemberId")}
+            {...register('familyMemberId')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
             <option value="">Me</option>
@@ -104,20 +86,17 @@ export const AddGoalForm: React.FC = () => {
           </select>
           {familyMembers.length === 0 && (
             <p className="mt-1 text-sm text-gray-500">
-              No family members added yet. You can add family members in the
-              Profile section.
+              No family members added yet. You can add family members in the Profile section.
             </p>
           )}
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Goal Title
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Goal Title</label>
         <input
           type="text"
-          {...register("title")}
+          {...register('title')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="Enter goal title"
         />
@@ -127,29 +106,23 @@ export const AddGoalForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Target Amount
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Target Amount</label>
         <input
           type="number"
-          {...register("targetAmount", { valueAsNumber: true })}
+          {...register('targetAmount', { valueAsNumber: true })}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="Enter target amount"
         />
         {errors.targetAmount && (
-          <p className="mt-1 text-sm text-red-600">
-            {errors.targetAmount.message}
-          </p>
+          <p className="mt-1 text-sm text-red-600">{errors.targetAmount.message}</p>
         )}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Deadline
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Deadline</label>
         <input
           type="date"
-          {...register("deadline")}
+          {...register('deadline')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         />
         {errors.deadline && (
@@ -158,11 +131,9 @@ export const AddGoalForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Category
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Category</label>
         <select
-          {...register("category")}
+          {...register('category')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         >
           <option value="retirement">Retirement</option>

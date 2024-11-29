@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStore } from '../store/useStore';
 import { AddGoalForm } from '../components/Forms/AddGoalForm';
+import { GoalInvitations } from '../components/Goals/GoalInvitations';
 
 export const Goals: React.FC = () => {
   const goals = useStore((state) => state.goals);
@@ -8,6 +9,8 @@ export const Goals: React.FC = () => {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Financial Goals</h1>
+      
+      <GoalInvitations />
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg p-4 shadow-md">
@@ -30,6 +33,9 @@ export const Goals: React.FC = () => {
                 </p>
                 <p className="text-sm text-gray-600">
                   Category: {goal.category}
+                </p>
+                <p className="text-sm text-gray-600">
+                  Contributors: {goal.contributors.length}
                 </p>
               </div>
             ))}

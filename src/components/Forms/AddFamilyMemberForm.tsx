@@ -1,31 +1,25 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useStore } from "../../store/useStore";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useStore } from '../../store/useStore';
 
 const familyMemberSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  relationship: z.string().min(1, "Relationship is required"),
-  monthlyIncome: z.number().min(0, "Monthly income must be 0 or greater"),
-  monthlyExpenses: z.number().min(0, "Monthly expenses must be 0 or greater"),
+  name: z.string().min(1, 'Name is required'),
+  relationship: z.string().min(1, 'Relationship is required'),
+  monthlyIncome: z.number().min(0, 'Monthly income must be 0 or greater'),
+  monthlyExpenses: z.number().min(0, 'Monthly expenses must be 0 or greater'),
 });
 
 type FamilyMemberFormData = z.infer<typeof familyMemberSchema>;
 
 export const AddFamilyMemberForm: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FamilyMemberFormData>({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FamilyMemberFormData>({
     resolver: zodResolver(familyMemberSchema),
   });
   const addFamilyMember = useStore((state) => state.addFamilyMember);
 
   const onSubmit = (data: FamilyMemberFormData) => {
-    //@ts-ignore
     addFamilyMember({
       id: crypto.randomUUID(),
       ...data,
@@ -39,7 +33,7 @@ export const AddFamilyMemberForm: React.FC = () => {
         <label className="block text-sm font-medium text-gray-700">Name</label>
         <input
           type="text"
-          {...register("name")}
+          {...register('name')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="Enter name"
         />
@@ -49,11 +43,9 @@ export const AddFamilyMemberForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Relationship
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Relationship</label>
         <select
-          {...register("relationship")}
+          {...register('relationship')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         >
           <option value="">Select relationship</option>
@@ -64,43 +56,33 @@ export const AddFamilyMemberForm: React.FC = () => {
           <option value="other">Other</option>
         </select>
         {errors.relationship && (
-          <p className="mt-1 text-sm text-red-600">
-            {errors.relationship.message}
-          </p>
+          <p className="mt-1 text-sm text-red-600">{errors.relationship.message}</p>
         )}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Monthly Income
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Monthly Income</label>
         <input
           type="number"
-          {...register("monthlyIncome", { valueAsNumber: true })}
+          {...register('monthlyIncome', { valueAsNumber: true })}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="0"
         />
         {errors.monthlyIncome && (
-          <p className="mt-1 text-sm text-red-600">
-            {errors.monthlyIncome.message}
-          </p>
+          <p className="mt-1 text-sm text-red-600">{errors.monthlyIncome.message}</p>
         )}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Monthly Expenses
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Monthly Expenses</label>
         <input
           type="number"
-          {...register("monthlyExpenses", { valueAsNumber: true })}
+          {...register('monthlyExpenses', { valueAsNumber: true })}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="0"
         />
         {errors.monthlyExpenses && (
-          <p className="mt-1 text-sm text-red-600">
-            {errors.monthlyExpenses.message}
-          </p>
+          <p className="mt-1 text-sm text-red-600">{errors.monthlyExpenses.message}</p>
         )}
       </div>
 
